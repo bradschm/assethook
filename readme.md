@@ -1,18 +1,18 @@
 # assethook - Import asset tags and names into your Jamf PRO Server!
 
-## This is my first web application - Feedback is much appreciated!
+## This is my first web application - Feedback is much appreciated! More documentation and features to come! 
 
 This is a flask application that listens for webhooks. It also contains a database so you can upload your asset tags and device names. When a device Enrolls or otherwise triggers a webhook, it can reach out to this application to see if there are any asset tags and names associated in the database with the serial number provided by the webook. 
 
 # Quickstart - run in Terminal
 
 ```bash
+git clone https://github.com/bradschm/assethook
 easy_install pip or sudo apt-get install pip 
 pip install virtualenv
 virtualenv assethook
 cd assethook
 source bin/activate
-git clone https://github.com/bradschm/assethook ./
 python setup.py install
 ```
 
