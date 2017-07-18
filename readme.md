@@ -12,7 +12,7 @@ pip install virtualenv
 virtualenv assethook
 cd assethook
 source bin/activate
-git clone https://github.com/bradschm/assethook
+git clone https://github.com/bradschm/assethook ./
 python setup.py install
 ```
 
