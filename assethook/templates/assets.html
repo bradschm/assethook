@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Devices</h2>
+<div class="table-responsive">
+    <table class="table table-condensed table-hover table-bordered">
+    <thead>
+        <td>Device Name</td>
+        <td>Serial Number</td>
+        <td>Asset Tag</td>
+        <td>Date Submitted to JSS</td>
+        <td>Force Apply Record</td>
+        <td>Delete from Database</td>
+    </thead>
+    
+    {% for row in rows %}
+    <tr>
+        <td>{{row["device_name"]}}</td>
+        <td>{{row["serial_number"]}}</td>
+        <td> {{ row["asset_tag"]}}</td>
+        <td> {{ row["dt_sub_to_jss"]}}</td>
+        <td><a href="/submit_inventory?serial_number={{row['serial_number']}}">Submit Inventory</a></td>
+        <td><a href="/delete_device?id={{row['id']}}&serial_number={{row['serial_number']}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

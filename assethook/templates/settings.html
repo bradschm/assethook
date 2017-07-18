@@ -1,0 +1,29 @@
+{% extends "assets.html" %}
+{% block content %}
+<h2>Settings</h2>
+         <form action="{{ url_for('settings') }}" method=post>
+<dl>
+         {% for row in rows %}
+         
+         
+                <dt>{{row["setting_name"]}}: </dt>
+                <dd>
+                {% if row["setting_name"] == "jss_password" %}
+                <input type=password name={{row["setting_name"]}} size="45" value={{row["setting_value"]}}>
+                {% else %}
+                <input type=text name={{row["setting_name"]}} size="45" value={{row["setting_value"]}}>
+                {% endif %}
+                </dd>
+                
+           
+     
+         {% endfor %}
+  </dl> 
+      <input type=submit value=Save>
+          </form>
+
+<p>
+Webhook URL 
+</p>
+{% endblock %}
+

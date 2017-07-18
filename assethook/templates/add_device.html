@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Add Device</h2>
+<!--  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}-->
+  <form action="{{ url_for('add_device') }}" method=post>
+    <dl>
+      <dt>Device Name:
+      <dd><input type=text name=device_name>
+      <dt>Serial Number:
+    <dd><input type=text name=serial_number>
+    <dt>Asset Tag:
+    <dd><input type=text name=asset_tag>
+      <dd><input type=submit value=Add Device>
+    </dl>
+  </form>
+{% endblock %}
+

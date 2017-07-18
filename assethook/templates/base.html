@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+<!--        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+        {% endblock %}
+        <style>
+            /* Sticky footer styles
+             -------------------------------------------------- */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: #f5f5f5;
+        }
+        /* Custom page CSS
+         -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+        
+        body > .container {
+            padding: 60px 15px 0;
+        }
+        .container .text-muted {
+            margin: 20px 0;
+        }
+        
+        .footer > .container {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        
+        code {
+            font-size: 80%;
+        }
+        
+        thead td {
+            background-color:#ccc;
+            font-weight:bold;
+        }
+        td{
+            background-color:white;
+            font-weight:normal;
+        }
+        /*DL, DT, DD TAGS LIST DATA*/
+        dl {
+            margin-bottom:50px;
+            border:3px dashed #ccc;
+            background-color: #eee;
+            padding: 10px;
+        }
+        
+        dl dt {
+            
+            color:#000;
+            float:left;
+            font-weight:bold;
+            margin-right:10px;
+            padding:5px;
+            width:120px;
+        }
+        
+        dl dd {
+            margin:2px 0;
+            padding:5px 0;
+            
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">assethook</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('get_devices') }}">Devices</a></li>
+                        <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                        <li><a href="{{ url_for('add_device') }}">Add Device</a></li>
+                        <li><a href="{{ url_for('upload_file') }}">Upload</a></li>
+                        <li><a href="{{ url_for('help') }}">Help</a></li>
+                        {% if session.logged_in %}
+                        
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        {% else %}
+                        
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        {% endif %}
+                        
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+        
+<!--        <div class="jumbotron">-->
+
+        <div class="jumbotron">
+            <!-- Example row of columns -->
+            
+                  
+<!--                    <p><a class="btn btn-default" href="#" role="button">View details »</a></p>-->
+
+        
+        <div id="messages">{% for message in get_flashed_messages() %}</div>
+            <p class="alert-success" style="padding:25px;"><strong>{{ message }}</strong></p>
+            {% endfor %}
+            {% if error %}
+            <p class="alert-danger" style="padding:25px;"><strong>Error:</strong> {{ error }}
+            {% endif %}
+            
+        <div id="content">{% block content %}{% endblock %}</div>
+        
+       
+      
+<!--        <footer class="footer">-->
+<!--            {% block footer %}-->
+<!--            <div class="container">-->
+<!--                <p class="text-muted">Place sticky footer content here.</p>-->
+<!--            </div>-->
+<!--            {% endblock %}-->
+<!--            -->
+<!--        </footer>-->
+        </div>
+        </div> <!-- /container -->
+        
+        <!-- Bootstrap core JavaScript
+         ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+        <script src="../../dist/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+        <div class=page>
+   <body>
+       {% for message in get_flashed_messages() %}
+       <div class=flash>{{ message }}</div>
+       {% endfor %}
+   {% block body %}
+   
+   <a href = "/devices">Devices</a>
+   <a href = "/add_device">Add a device</a>
+   <a href = "/upload">Upload from CSV</a>
+
+      <table id="gradient-style">
+         <thead>
+            <td>Device Name</td>
+            <td>Serial Number</td>
+            <td>Asset Tag</td>
+            <td>Date Submitted to JSS</td>
+            <td>Force Apply Record</td>
+            <td>Delete from Database</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["device_name"]}}</td>
+               <td>{{row["serial_number"]}}</td>
+               <td> {{ row["asset_tag"]}}</td>
+               <td> {{ row["dt_sub_to_jss"]}}</td>
+               <td><a href="/submit_inventory?serial_number={{row['serial_number']}}">Submit Inventory</a></td>
+               <td><a href="/delete_device?id={{row['id']}}">Delete</a></td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+{% endblock %}
+      
+   </body>
+</html>

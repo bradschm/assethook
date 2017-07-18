@@ -1,0 +1,26 @@
+{% extends "assets.html" %}
+{% block content %}
+<h2>Help</h2>
+<p>
+Assethook is listening for webhooks calls from the Jamf PRO Server (formally known as the JSS). When a webhook is triggered and this application
+is called, the serial number will be checked against the local database for a name and asset tag. If found, the values will be updated in the Jamf PRO Server.
+</p>
+<h3>Requirements:</h3>
+<ul><li>Please see the <a href="{{ url_for('settings') }}">settings</a> section to configure this application for use with your Jamf PRO Server.</li>
+    <li>You will need an API account that is able to Read and Write to Mobile Device and Computer objects.</li>
+    <li>Create webhooks for device events on your Jamf PRO Server</li>
+</ul>
+
+<h4>Webhooks</h4>
+<p>Please create one or both Webhooks by browsing to Settings/Global Management/Webhooks</p>
+<dl>
+    <dt>Display Name: </dt>
+    <dd>Give it a meaningful name</dd>
+    <dt>Enabled: </dt> <dd>Checked</dd>
+    <dt>Webhook URL: </dt> <dd>{{ request.url_root }}/webhook</dd>
+    <dt>Content Type: </dt> <dd>JSON</dd>
+    <dt>Webhook Event: </dt> <dd>Select MobileDeviceEnrolled or ComputerAdded</dd>
+</dl>
+
+{% endblock %}
+
