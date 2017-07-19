@@ -216,8 +216,8 @@ def submit_to_jss(serial_number=None,type=None):
         flash('Could not determine device type')
         app.logger.warning('Could not determine device type')
         return redirect(url_for('get_devices'))
-
-    if settings_dict['set_name'] == 'True':
+    # Check to see if there is a device name and if the device name setting is True
+    if settings_dict['set_name'] == 'True' and device_info['device_name'] != '':
         body = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" \
             "<%s><general><name>%s</name><asset_tag>%s</asset_tag></general>" \
             "</%s>" % (device_type_xml,device_info['device_name'],device_info['asset_tag'],device_type_xml)
