@@ -266,29 +266,30 @@ def mobile_device_enrolled():
     submit_to_jss(serial_number=device['event'][u'serialNumber'],type=type)
     return '', 200
 
-@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     '''Upload a csv file and import into the database'''
     if not session.get('logged_in'):
         return redirect(url_for('login'))
     if request.method == 'POST':
-        csv_upload = request.get_array(field_name='file')
-        # Would be nice to map fields here - how can we load a form quick with drop downs?
-        csv_data = iter(csv_upload)
-        next(csv_data) # Skip header
+        f = request.files['file']
+        if f.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
         db = get_db()
-        for line in csv_data:
-            asset_tag = line[1]
-            serial_number = line[0]
-            device_name = line[2]
-            print asset_tag,serial_number,device_name
-        
+        raw_file = f.read()
+        contents = iter(raw_file.split('\r\n')) 
+        next(contents) # Skips the header
+        for x in contents:
+            c = x.replace('\x0b','') # Pulls out form feeds, I'm import from a very old Filemaker DB so this helps clean it up
+
+            asset_tag = c.split(',')[1].replace(' ','') # Pulls out spaces, If you have unneeded dashes you can add this: .replace('-','')
+            serial_number = c.split(',')[0].replace(' ','') # Pulls out spaces, shouldn't be any there
+            device_name = c.split(',')[2]
+ 
             db.execute('insert into devices (asset_tag, serial_number, device_name) values (?, ?, ?)',
-                                 [asset_tag,serial_number,device_name])
+                                     [asset_tag,serial_number,device_name])            
         db.commit()
-        cur = db.execute('select id, asset_tag, serial_number, device_name from devices order by id desc')
-        devices = cur.fetchall()
-        flash('Imported %s devices from: %s' % (len(csv_upload) -1,request.files['file'].filename))
+        flash('Imported %s devices from: %s' % (len(raw_file.split('\r\n')) -1,request.files['file'].filename))
         return redirect(url_for('get_devices'))
     return render_template('upload.html')
 
