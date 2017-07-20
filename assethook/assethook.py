@@ -255,12 +255,14 @@ def mobile_device_enrolled():
     if not device:
         return '', 400
     
-    if device['webhook']['webhookEvent'] == 'ComputerAdded':
+    if device['webhook']['webhookEvent'].startswith('Computer'):
         type = 'Computer'
         
-    if device['webhook']['webhookEvent'] == 'MobileDeviceEnrolled':
+    elif device['webhook']['webhookEvent'].startswith('Mobile'):
         type = 'MobileDevice'
-    
+
+    else:
+        return 'Invalid Webhook format', 403
     submit_to_jss(serial_number=device['event'][u'serialNumber'],type=type)
     return '', 200
 
