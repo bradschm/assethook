@@ -276,6 +276,7 @@ def mobile_device_enrolled():
     submit_to_jss(serial_number=device['event'][u'serialNumber'],type=type)
     return '', 200
 
+@app.route('/upload_file', methods=['POST'])
 def upload_file():
     '''Upload a csv file and import into the database'''
     if not session.get('logged_in'):
