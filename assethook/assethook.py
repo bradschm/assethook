@@ -228,15 +228,15 @@ def submit_to_jss(serial_number=None,type=None):
                 "</%s>" % (device_type_xml,device_info['asset_tag'],device_type_xml)
 
 try:
-        r = requests.put(settings_dict['jsshost'] + ':' + settings_dict['jss_port'] + settings_dict['jss_path'] +
+    r = requests.put(settings_dict['jsshost'] + ':' + settings_dict['jss_port'] + settings_dict['jss_path'] +
                          '/JSSResource/%s/serialnumber/' % device_type_url + serial_number,
                          auth=(settings_dict['jss_username'], settings_dict['jss_password']), data=body)
-        if r.status_code == 409:
-            # A 409 error can indicate that the device record has no name. This happens when the webhook is issued 
-            # and this program submits only an asset tag. The JSS responds that a name is reqiured. Delaying
-            # and trying again seems to work fine.
-            time.sleep(10)
-            r = requests.put(settings_dict['jsshost'] + ':' + settings_dict['jss_port'] + settings_dict['jss_path'] +
+    if r.status_code == 409:
+        # A 409 error can indicate that the device record has no name. This happens when the webhook is issued 
+        # and this program submits only an asset tag. The JSS responds that a name is reqiured. Delaying
+        # and trying again seems to work fine.
+        time.sleep(10)
+        r = requests.put(settings_dict['jsshost'] + ':' + settings_dict['jss_port'] + settings_dict['jss_path'] +
                              '/JSSResource/%s/serialnumber/' % device_type_url + serial_number,
                              auth=(settings_dict['jss_username'], settings_dict['jss_password']), data=body)
 
