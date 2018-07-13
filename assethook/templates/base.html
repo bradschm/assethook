@@ -101,10 +101,10 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ url_for('get_devices') }}">Devices</a></li>
-                        <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                        <li><a href="{{ url_for('settings_page') }}">Settings</a></li>
                         <li><a href="{{ url_for('add_device') }}">Add Device</a></li>
                         <li><a href="{{ url_for('upload_file') }}">Upload</a></li>
-                        <li><a href="{{ url_for('help') }}">Help</a></li>
+                        <li><a href="{{ url_for('documentation') }}">Help</a></li>
                         {% if session.logged_in %}
                         
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
