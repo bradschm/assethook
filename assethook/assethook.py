@@ -310,6 +310,20 @@ def submit_to_jss(serial_number=None, device_type=None):
     return redirect(url_for('get_devices'))
 
 
+@app.route('/submit_all', methods=['GET'])
+def submit_all_devices(error=None):
+    '''Submit inventory for all devices in the database'''
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    db = get_db()
+    cur = db.execute(
+        'select id, asset_tag, serial_number, device_name, dt_sub_to_jss from devices order by id desc')
+    devices = cur.fetchall()
+    for device in devices:
+        print(device['serial_number'])
+        submit_to_jss(serial_number=device['serial_number'])
+    return redirect(url_for('get_devices'))
+
 @app.route('/webhook', methods=['POST'])
 def mobile_device_enrolled():
     ''' This is what the webhook will call'''
@@ -345,17 +359,18 @@ def upload_file():
         contents = iter(raw_file.split('\r\n'))
         next(contents)  # Skips the header
         for x in contents:
-            # Pulls out form feeds, I'm importing from a very old Filemaker DB so this helps clean it up
-            c = x.replace('\x0b', '')
+            if x.count(',') > 1:
+                # Pulls out form feeds, I'm importing from a very old Filemaker DB so this helps clean it up
+                c = x.replace('\x0b', '')
 
-            # Pulls out spaces, If you have unneeded dashes you can add this: .replace('-','')
-            asset_tag = c.split(',')[1].replace(' ', '')
-            # Pulls out spaces, shouldn't be any there
-            serial_number = c.split(',')[0].replace(' ', '')
-            device_name = c.split(',')[2]
+                # Pulls out spaces, If you have unneeded dashes you can add this: .replace('-','')
+                asset_tag = c.split(',')[1].replace(' ', '')
+                # Pulls out spaces, shouldn't be any there
+                serial_number = c.split(',')[0].replace(' ', '')
+                device_name = c.split(',')[2]
 
-            db.execute('insert into devices (asset_tag, serial_number, device_name) values (?, ?, ?)',
-                       [asset_tag, serial_number, device_name])
+                db.execute('insert into devices (asset_tag, serial_number, device_name) values (?, ?, ?)',
+                        [asset_tag, serial_number, device_name])
         db.commit()
         flash('Imported %s devices from: %s' %
               (len(raw_file.split('\r\n')) - 1, request.files['file'].filename))
