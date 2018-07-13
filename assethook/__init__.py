@@ -1,1 +1,1 @@
-from assethook import app
+from .assethook import app
