@@ -18,12 +18,12 @@ python setup.py install
 
 Secured with TLS:
 ```bash
-gunicorn -w 4 wsgi:app --keyfile your.key --certfile your.crt
+gunicorn -b 0.0.0.0:8000 -w 4 wsgi:app --keyfile your.key --certfile your.crt
 ```
 
 Not secured with TLS:
 ```bash
-gunicorn -w 4 wsgi:app
+gunicorn -b 0.0.0.0:8000 -w 4 wsgi:app
 ```
 
 Visit https://server:8000/ in a web browser and configure the settings, notice you can turn off the device naming by setting set_name to False. 
