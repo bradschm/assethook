@@ -261,7 +261,7 @@ def submit_to_jss(serial_number=None,type=None):
 def mobile_device_enrolled():
     ''' This is what the webhook will call'''
     device = request.get_json()
-    print device
+    print(device)
     if not device:
         return '', 400
     
